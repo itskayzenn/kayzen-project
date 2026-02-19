@@ -1,72 +1,92 @@
 # kayzenDB
 
-![banner](https://i.ibb.co.com/ZpmS4hQ7/kayzen-DB-20260219-122720-0000.png)
+<p align="center">
+  <img src="https://i.ibb.co.com/ZpmS4hQ7/kayzen-DB-20260219-122720-0000.png" width="600"/>
+</p>
 
-![kayzenDB](https://img.shields.io/badge/kayzenDB%20-%20black?logoSize=auto)
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Security: AES-256-GCM](https://img.shields.io/badge/Security-AES--256--GCM-green.svg)](#-keamanan--acid)
-[![Build: Docker](https://img.shields.io/badge/Build-Docker-blue.svg)](https://www.docker.com/)
-[![Stability: ACID--Lite](https://img.shields.io/badge/Stability-ACID--Lite-orange.svg)](#-keamanan--acid)
-[![Platform: Universal](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux%20%7C%20Cloud-lightgrey.svg)](#-instalasi-cepat-otomatis)
+<p align="center">
 
-**kayzenDB** adalah database engine berbasis file yang dirancang untuk kecepatan, keamanan tingkat tinggi, dan portabilitas total. Menggabungkan kemudahan JSON dengan kekuatan enkripsi militer dan ketahanan data *Write-Ahead Logging* (WAL).
+  ![Engine](https://img.shields.io/badge/Engine-kayzenDB-black?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+  ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+  ![Security](https://img.shields.io/badge/Encryption-AES--256--GCM-green?style=for-the-badge)
+  ![ACID](https://img.shields.io/badge/Stability-ACID--Lite-orange?style=for-the-badge)
+  ![WAL](https://img.shields.io/badge/Storage-WAL-red?style=for-the-badge)
+  ![Docker](https://img.shields.io/badge/Build-Docker-blue?style=for-the-badge&logo=docker)
+  ![Platform](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux%20%7C%20Cloud-lightgrey?style=for-the-badge)
+  ![CLI](https://img.shields.io/badge/Interface-CLI-purple?style=for-the-badge)
+  ![Backup](https://img.shields.io/badge/Backup-S3%20Compatible-blue?style=for-the-badge&logo=amazonaws)
+
+</p>
 
 ---
 
-## Instalasi Cepat (Otomatis)
+<p align="center">
+  ⚡ File-Based Database Engine • 🔐 Military-Grade Encryption • 💾 WAL Durability • ☁ Cloud Ready
+</p>
 
-### A. Di Termux, Linux, atau MacOS
-Gunakan skrip instalasi universal yang secara otomatis mendeteksi lingkungan Anda (termasuk penanganan otomatis Rust/Compiler di Termux):
+---
 
+## 🚀 Instalasi Cepat
+
+### 🖥 Termux / Linux / MacOS
 ```bash
 chmod +x deploy_universal.sh
 ./deploy_universal.sh
+```
 
-B. Menggunakan Docker (Rekomendasi untuk Cloud/Railway)
-Jalankan database tanpa perlu menginstal dependensi di host OS Anda:
-# Build image
+🐳 Docker (Cloud / Railway)
+
 docker build -t kayzendb .
-
-# Jalankan secara interaktif
 docker run -it -v $(pwd)/data:/app/data kayzendb
 
-## Penggunaan CLI (REPL)
-Cukup jalankan perintah kayzen diikuti dengan nama file database Anda:
+💻 Penggunaan CLI
+
 kayzen data/prod.kzn
 
-Cheat Sheet Perintah:
-| Perintah | Deskripsi | Contoh |
-| :--- | :--- | :--- |
-| CREATE | Menambah data baru | CREATE user1 {"name": "Zoro", "role": "Swordsman"} |
-| READ | Mengambil data berdasarkan key | READ user1 |
-| UPDATE | Memperbarui data yang ada | UPDATE user1 {"age": 21} |
-| DELETE | Menghapus record | DELETE user1 |
-| FIND | Pencarian dengan operator | FIND age > 20 |
-| LIST | List semua key | LIST |
+📌 Command Cheat Sheet
 
-## Cloud Readiness & Backup
-KayzenDB siap dideploy ke Railway.app menggunakan Dockerfile yang tersedia.
+Command	Fungsi
+```
+CREATE	Tambah data
+READ	Ambil data
+UPDATE	Update data
+DELETE	Hapus data
+FIND	Query dengan operator
+LIST	Tampilkan semua key
+```
 
-## Auto-Backup ke S3
-Untuk mengaktifkan backup otomatis ke Cloud (AWS S3, Cloudflare R2, dll), atur Environment Variables berikut:
- * KAYZEN_S3_KEY: Access Key ID
- * KAYZEN_S3_SECRET: Secret Access Key
- * KAYZEN_S3_ENDPOINT: Endpoint URL
- * KAYZEN_BACKUP_BUCKET: Nama Bucket
+☁ Cloud Ready
 
-## Keamanan & ACID
- * Atomicity: Menggunakan teknik rename-swap untuk memastikan file tidak pernah dalam kondisi setengah tertulis.
- * Consistency: Validasi CRC32 Checksums pada setiap sesi pembacaan data.
- * Isolation: Mekanisme single-writer lock untuk mencegah konflik data.
- * Durability: Implementasi WAL dan fsync menjamin data tetap selamat meski terjadi crash sistem.
- * Encryption: AES-256-GCM dengan derivasi kunci PBKDF2 (200,000 iterasi).
+Dockerfile Included
+Railway Compatible
+S3 / Cloudflare R2 Backup
 
-## Pengujian
-Pastikan semua fungsi berjalan sempurna di lingkungan Anda:
+
+🔑 Environment Variables
+```
+KAYZEN_S3_KEY
+KAYZEN_S3_SECRET
+KAYZEN_S3_ENDPOINT
+KAYZEN_BACKUP_BUCKET
+```
+
+🔐 Security & ACID-lite
+
+Feature	Implementasi
+
+Atomicity	Rename-Swap
+Consistency	CRC32 Validation
+Isolation	Single Writer Lock
+Durability	WAL + fsync
+Encryption	AES-256-GCM + PBKDF2 (200k iterasi)
+
+🧪 Testing
+```
 pytest tests/
+```
 
-Author: Kayzen Izumi, itskayzenn, kayzenfry, sczkayzen
-License: MIT
-
----
+<p align="center">
+  Made with ⚙ by Kayzen Izumi  
+  MIT License
+</p>
