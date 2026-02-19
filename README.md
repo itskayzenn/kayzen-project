@@ -36,14 +36,15 @@ chmod +x deploy_universal.sh
 ```
 
 🐳 Docker (Cloud / Railway)
-
+```
 docker build -t kayzendb .
 docker run -it -v $(pwd)/data:/app/data kayzendb
+```
 
 💻 Penggunaan CLI
-
+```
 kayzen data/prod.kzn
-
+```
 📌 Command Cheat Sheet
 
 Command	Fungsi
