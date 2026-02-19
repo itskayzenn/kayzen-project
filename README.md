@@ -1,49 +1,72 @@
-# KayzenDB
+# kayzenDB
 
-Lightweight, Secure, ACID-lite File-Based Database Engine.
+[![banner](https://ibb.co.com/dwgtCQNx"><img src="https://i.ibb.co.com/ZpmS4hQ7/kayzen-DB-20260219-122720-0000.png)]
 
-## Fitur
-* **Keamanan**: AES-256-GCM encryption + PBKDF2 Key Derivation.
-* **Integritas**: CRC32 Checksums untuk setiap block data.
-* **Durabilitas**: Write-Ahead Logging (WAL) + Atomic Commit.
-* **Performa**: In-memory Indexing + LRU Caching + Compression.
+[![kayzenDB](https://img.shields.io/badge/kayzenDB%20-%20black?logoSize=auto)]
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Security: AES-256-GCM](https://img.shields.io/badge/Security-AES--256--GCM-green.svg)](#-keamanan--acid)
+[![Build: Docker](https://img.shields.io/badge/Build-Docker-blue.svg)](https://www.docker.com/)
+[![Stability: ACID--Lite](https://img.shields.io/badge/Stability-ACID--Lite-orange.svg)](#-keamanan--acid)
+[![Platform: Universal](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux%20%7C%20Cloud-lightgrey.svg)](#-instalasi-cepat-otomatis)
 
-## Instalasi
+**kayzenDB** adalah database engine berbasis file yang dirancang untuk kecepatan, keamanan tingkat tinggi, dan portabilitas total. Menggabungkan kemudahan JSON dengan kekuatan enkripsi militer dan ketahanan data *Write-Ahead Logging* (WAL).
+
+---
+
+## Instalasi Cepat (Otomatis)
+
+### A. Di Termux, Linux, atau MacOS
+Gunakan skrip instalasi universal yang secara otomatis mendeteksi lingkungan Anda (termasuk penanganan otomatis Rust/Compiler di Termux):
 
 ```bash
-pip install .
+chmod +x deploy_universal.sh
+./deploy_universal.sh
 
-Penggunaan CLI
-# Jalankan database
-kayzen mydatabase.kzn
+B. Menggunakan Docker (Rekomendasi untuk Cloud/Railway)
+Jalankan database tanpa perlu menginstal dependensi di host OS Anda:
+# Build image
+docker build -t kayzendb .
 
-# Masukkan password saat diminta (password baru untuk DB baru)
+# Jalankan secara interaktif
+docker run -it -v $(pwd)/data:/app/data kayzendb
 
-Perintah dalam REPL:
-kayzen> CREATE u1 {"name": "Budi", "age": 25, "city": "Jakarta"}
-kayzen> READ u1
-kayzen> UPDATE u1 {"name": "Budi Hartono", "age": 26, "city": "Jakarta"}
-kayzen> FIND age > 20
-kayzen> DELETE u1
+## Penggunaan CLI (REPL)
+Cukup jalankan perintah kayzen diikuti dengan nama file database Anda:
+kayzen data/prod.kzn
 
-Testing
+Cheat Sheet Perintah:
+| Perintah | Deskripsi | Contoh |
+| :--- | :--- | :--- |
+| CREATE | Menambah data baru | CREATE user1 {"name": "Zoro", "role": "Swordsman"} |
+| READ | Mengambil data berdasarkan key | READ user1 |
+| UPDATE | Memperbarui data yang ada | UPDATE user1 {"age": 21} |
+| DELETE | Menghapus record | DELETE user1 |
+| FIND | Pencarian dengan operator | FIND age > 20 |
+| LIST | List semua key | LIST |
+
+## Cloud Readiness & Backup
+KayzenDB siap dideploy ke Railway.app menggunakan Dockerfile yang tersedia.
+
+## Auto-Backup ke S3
+Untuk mengaktifkan backup otomatis ke Cloud (AWS S3, Cloudflare R2, dll), atur Environment Variables berikut:
+ * KAYZEN_S3_KEY: Access Key ID
+ * KAYZEN_S3_SECRET: Secret Access Key
+ * KAYZEN_S3_ENDPOINT: Endpoint URL
+ * KAYZEN_BACKUP_BUCKET: Nama Bucket
+
+## Keamanan & ACID
+ * Atomicity: Menggunakan teknik rename-swap untuk memastikan file tidak pernah dalam kondisi setengah tertulis.
+ * Consistency: Validasi CRC32 Checksums pada setiap sesi pembacaan data.
+ * Isolation: Mekanisme single-writer lock untuk mencegah konflik data.
+ * Durability: Implementasi WAL dan fsync menjamin data tetap selamat meski terjadi crash sistem.
+ * Encryption: AES-256-GCM dengan derivasi kunci PBKDF2 (200,000 iterasi).
+
+## Pengujian
+Pastikan semua fungsi berjalan sempurna di lingkungan Anda:
 pytest tests/
 
+Author: Kayzen Izumi, itskayzenn, kayzenfry, sczkayzen
+License: MIT
 
-### Analisis Kualitas & Arsitektur
-
-1.  **Separation of Concerns**:
-    * `StorageEngine` hanya peduli byte fisik (encrypt/compress/write).
-    * `WALManager` hanya peduli logging append-only.
-    * `SecurityManager` hanya peduli kriptografi.
-    * `KayzenDB` (Core) bertindak sebagai orkestrator.
-2.  **ACID-Lite**:
-    * *Atomicity*: Dicapai lewat `os.replace` (atomic rename) di `StorageEngine`.
-    * *Consistency*: Checksum validation saat load.
-    * *Isolation*: Single-process lock (implisit via penggunaan file lock jika diperluas, saat ini basic single-instance).
-    * *Durability*: `os.fsync` di WAL.
-3.  **Security**: Menggunakan standar industri (AES-GCM) dan salt yang unik per file database.
-
-Solusi ini siap digunakan sebagai fondasi database engine lokal yang serius.
-
-# kayzen-project
+---
