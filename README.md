@@ -1,8 +1,8 @@
 # kayzenDB
 
-[![banner](https://ibb.co.com/dwgtCQNx"><img src="https://i.ibb.co.com/ZpmS4hQ7/kayzen-DB-20260219-122720-0000.png)]
+![banner](https://i.ibb.co.com/ZpmS4hQ7/kayzen-DB-20260219-122720-0000.png)
 
-[![kayzenDB](https://img.shields.io/badge/kayzenDB%20-%20black?logoSize=auto)]
+![kayzenDB](https://img.shields.io/badge/kayzenDB%20-%20black?logoSize=auto)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Security: AES-256-GCM](https://img.shields.io/badge/Security-AES--256--GCM-green.svg)](#-keamanan--acid)
